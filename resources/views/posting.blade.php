@@ -1,0 +1,1 @@
+<h1>the name of this page is posting.blade.php, but in url it is showing about</h1>
