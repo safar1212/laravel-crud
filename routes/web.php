@@ -8,7 +8,7 @@ Route::get('/student/{id}', [StudentController::class,'singleStudent'])->name('v
 Route::get('/add', [StudentController::class,'addStudent']);
 Route::get('/update', [StudentController::class,'updateStudent']);
 // Route::get('/delete/{id}', [StudentController::class,'deleteStudent']);
-Route::get('/student/{id}', [StudentController::class,'deleteStudent'])->name('delete.student');
+Route::get('/delete/{id}', [StudentController::class,'deleteStudent'])->name('delete.student');
 
 
 
