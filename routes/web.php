@@ -3,12 +3,18 @@
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [StudentController::class,'allStudents'])->name('home');
-Route::get('/student/{id}', [StudentController::class,'singleStudent'])->name('view.student');
-Route::get('/add', [StudentController::class,'addStudent']);
-Route::get('/update', [StudentController::class,'updateStudent']);
-// Route::get('/delete/{id}', [StudentController::class,'deleteStudent']);
-Route::get('/delete/{id}', [StudentController::class,'deleteStudent'])->name('delete.student');
+Route::controller(StudentController::class)->group(function () {
+    Route::get('/', 'allStudents')->name('home');
+    Route::get('/student/{id}', 'singleStudent')->name('view.student');
+    Route::post('/add', 'addStudent')->name('addStudent');
+    Route::get('/update', 'updateStudent');
+    Route::get('/updatepage/{id}', 'updatePage')->name('update.page');
+    Route::view('/newstudent', 'addStudent')->name('view.form');
+
+    Route::get('/delete/{id}', 'deleteStudent')->name('delete.student');
+});
+
+
 
 
 

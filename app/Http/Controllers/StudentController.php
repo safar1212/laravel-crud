@@ -21,14 +21,14 @@ class StudentController extends Controller
          return view('student',['data' => $students]);
     }
 
-    public function addStudent(){
+    public function addStudent(Request $req){
         $student = DB::table('students')->insert([
-            'student_name' => 'raza',
-            'age' => '12',
-            'city' => "Quetta",
+            'student_name' => $req->studentName,
+            'age' => $req->studentAge,
+            'city' => $req->studentCity,
         ]);
         if($student){
-            echo "<h1>Data successfully added to students table</h1>";
+            return redirect()->route('home');
         } else {
             echo "data didn't added";
         }
@@ -46,6 +46,13 @@ class StudentController extends Controller
             echo "data didn't update";
         }
 
+    }
+
+    public function updatepage($id) {
+        // $student = DB::table('students')->where('id', $id)->get();
+        $student = DB::table('students')->find($id);
+
+        return $student;
     }
 
     public function deleteStudent(string $id) {
