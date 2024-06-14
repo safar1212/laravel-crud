@@ -34,14 +34,18 @@ class StudentController extends Controller
         }
     }
 
-    public function updateStudent() {
-        $student = DB::table('students')->where('id',1)
+    public function updateStudent(Request $req, $id) {
+        // return $req;
+        
+        $student = DB::table('students')->where('id',$id)
         ->update([
-            'city' => "Karachi"
+            'student_name' => $req->studentName,
+            'age' => $req->studentAge,
+            'city' => $req->studentCity,
         ]);
 
         if($student){
-            echo "<h1>Data successfully update in students table</h1>";
+            return redirect()->route('home');
         } else {
             echo "data didn't update";
         }
@@ -51,8 +55,8 @@ class StudentController extends Controller
     public function updatepage($id) {
         // $student = DB::table('students')->where('id', $id)->get();
         $student = DB::table('students')->find($id);
-
-        return $student;
+        // return $student;
+        return view('updateStudent', ['data' => $student]);
     }
 
     public function deleteStudent(string $id) {
@@ -63,7 +67,7 @@ class StudentController extends Controller
             echo "student with this id deleted";
             return redirect()->route('home');
         } else {
-            echo "student didn't delete";
+            echo "student didn't deleted from students table";
         }
 
     }

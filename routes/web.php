@@ -7,7 +7,7 @@ Route::controller(StudentController::class)->group(function () {
     Route::get('/', 'allStudents')->name('home');
     Route::get('/student/{id}', 'singleStudent')->name('view.student');
     Route::post('/add', 'addStudent')->name('addStudent');
-    Route::get('/update', 'updateStudent');
+    Route::put('/update/{id}', 'updateStudent')->name('update.student');
     Route::get('/updatepage/{id}', 'updatePage')->name('update.page');
     Route::view('/newstudent', 'addStudent')->name('view.form');
 
