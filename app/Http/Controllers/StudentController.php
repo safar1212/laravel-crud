@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\DB;
 class StudentController extends Controller
 {
     public function allStudents(){
-        $students = DB::table('students')->get();
+        $students = DB::table('students')
+        ->select('students.*','cities.city_name')
+        ->join('cities', 'students.city_id', '=', 'cities.id')
+        ->orderBy('id','ASC')->get();
     //    return $students;
         //  dd($students); debug information
         return view('allStudents',['data' => $students]);
@@ -21,31 +24,42 @@ class StudentController extends Controller
          return view('student',['data' => $students]);
     }
 
-    public function addStudent(){
+    public function addStudent(Request $req){
         $student = DB::table('students')->insert([
-            'student_name' => 'raza',
-            'age' => '12',
-            'city' => "Quetta",
-        ]);
+            'student_name' => $req->studentName,
+            'age' => $req->studentAge,
+            'city' => $req->studentCity,
+        ]);      
         if($student){
-            echo "<h1>Data successfully added to students table</h1>";
+            return redirect()->route('home');
         } else {
             echo "data didn't added";
         }
     }
 
-    public function updateStudent() {
-        $student = DB::table('students')->where('id',1)
+    public function updateStudent(Request $req, $id) {
+        // return $req;
+        
+        $student = DB::table('students')->where('id',$id)
         ->update([
-            'city' => "Karachi"
+            'student_name' => $req->studentName,
+            'age' => $req->studentAge,
+            'city' => $req->studentCity,
         ]);
 
         if($student){
-            echo "<h1>Data successfully update in students table</h1>";
+            return redirect()->route('home');
         } else {
             echo "data didn't update";
         }
 
+    }
+
+    public function updatepage($id) {
+        // $student = DB::table('students')->where('id', $id)->get();
+        $student = DB::table('students')->find($id);
+        // return $student;
+        return view('updateStudent', ['data' => $student]);
     }
 
     public function deleteStudent(string $id) {
@@ -56,7 +70,7 @@ class StudentController extends Controller
             echo "student with this id deleted";
             return redirect()->route('home');
         } else {
-            echo "student didn't delete";
+            echo "student didn't deleted from students table";
         }
 
     }
