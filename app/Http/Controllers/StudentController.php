@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\DB;
 class StudentController extends Controller
 {
     public function allStudents(){
-        $students = DB::table('students')->get();
+        $students = DB::table('students')
+        ->select('students.*','cities.city_name')
+        ->join('cities', 'students.city_id', '=', 'cities.id')
+        ->orderBy('id','ASC')->get();
     //    return $students;
         //  dd($students); debug information
         return view('allStudents',['data' => $students]);
@@ -26,7 +29,7 @@ class StudentController extends Controller
             'student_name' => $req->studentName,
             'age' => $req->studentAge,
             'city' => $req->studentCity,
-        ]);
+        ]);      
         if($student){
             return redirect()->route('home');
         } else {
